@@ -44,8 +44,6 @@ jobs:
 
     needs: build
 
-    environment: Production
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -53,7 +51,13 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run tests
-        run: echo I am testing...
+        run: touch hello-world.md
+        
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          path: hello-world.md
+        
 
   deploy:
     # The type of runner that the job will run on
@@ -69,4 +73,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run tests
         run: echo I am deploying...
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v4.1.7
+        with:
+          path: ./
 
